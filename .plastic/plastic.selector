@@ -1,0 +1,4 @@
+repository "BattleRoyaleTest/BattleRoyaleTest@7971571288321@cloud"
+  path "/"
+    br "/main"
+    co "/main"
