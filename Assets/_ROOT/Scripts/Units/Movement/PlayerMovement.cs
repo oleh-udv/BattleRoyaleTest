@@ -1,5 +1,6 @@
 namespace Scripts.Units.Movement
 {
+    using Camera;
     using Infrastructure.Input;
     using UnityEngine;
     using Zenject;
@@ -9,12 +10,12 @@ namespace Scripts.Units.Movement
     {
         [Inject] 
         private IInputProvider InputProvider { get; set; }
+        [Inject]
+        private VirtualCamera VirtualCamera { get; set; }
 
         [SerializeField] 
         private UnitMovement unitMovement;
         
-        private Camera mainCamera;
-
         private void OnValidate()
         {
             unitMovement = GetComponent<UnitMovement>();
@@ -22,14 +23,14 @@ namespace Scripts.Units.Movement
 
         private void Start()
         {
-            mainCamera = Camera.main;
+            VirtualCamera.LookAt(transform);
         }
 
         private void Update()
         {
             var input = InputProvider.Axis;
 
-            var movementVector = mainCamera.transform.TransformDirection(input);
+            var movementVector = VirtualCamera.GetTransformDirection(input);
             movementVector.Normalize();
             
             unitMovement.SetMovementDirection(movementVector);
