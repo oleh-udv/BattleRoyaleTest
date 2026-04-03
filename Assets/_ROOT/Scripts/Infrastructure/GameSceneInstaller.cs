@@ -1,6 +1,7 @@
 namespace Scripts.Infrastructure
 {
     using Camera;
+    using Currencises;
     using Input;
     using LevelBased;
     using UnityEngine;
@@ -8,7 +9,7 @@ namespace Scripts.Infrastructure
 
     public class GameSceneInstaller : MonoInstaller
     {
-        [SerializeField] private BaseLevelCreator levelCreator;
+        [SerializeField] private LevelCreatorBase levelCreator;
         [SerializeField] private VirtualCamera virtualCamera;
         
         public override void InstallBindings()
@@ -16,11 +17,13 @@ namespace Scripts.Infrastructure
             BindGameServices();
             BindFactories();
             BindCamera();
+
+            BindCurrencies();
         }
 
         private void BindGameServices()
         {
-            Container.Bind<BaseLevelCreator>().FromInstance(levelCreator).AsSingle();
+            Container.Bind<LevelCreatorBase>().FromInstance(levelCreator).AsSingle();
             
             Container.Bind<IInputProvider>().To<InputProvider>().AsSingle();
         }
@@ -33,6 +36,11 @@ namespace Scripts.Infrastructure
         private void BindCamera()
         {
             Container.Bind<VirtualCamera>().FromInstance(virtualCamera).AsSingle();
+        }
+
+        private void BindCurrencies()
+        {
+            Container.Bind<Wallet>().AsSingle();
         }
     }
 }

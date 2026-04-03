@@ -4,7 +4,7 @@ namespace Scripts.LevelBased
     using UnityEngine;
     using Zenject;
 
-    public class LevelCreator : BaseLevelCreator
+    public class LevelCreator : LevelCreatorBase
     {
         [Inject] 
         private LevelsFactory LevelsFactory { get; set; }
