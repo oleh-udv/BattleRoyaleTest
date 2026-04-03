@@ -2,6 +2,7 @@ namespace Scripts.Units.Movement
 {
     using System.Collections;
     using UnityEngine;
+    using UnityEngine.UIElements;
 
     [RequireComponent(typeof(CharacterController))]
     public class UnitMovement : MonoBehaviour
@@ -11,6 +12,8 @@ namespace Scripts.Units.Movement
         [SerializeField] private float smoothness = 0.1f;
         [SerializeField] private float reachedDestination = 0.1f;
         [SerializeField] private float movePointUpdateTime = 0.1f;
+        [SerializeField] private float rotationSpeed = 15f;
+        [SerializeField] private float lift = 0.001f;
         
         [Header("References")] 
         [SerializeField] private CharacterController characterController;
@@ -26,12 +29,15 @@ namespace Scripts.Units.Movement
         private void OnValidate() =>
             characterController = GetComponent<CharacterController>();
 
+        public Vector3 Direction => direction;
+
         public void SetMovementDirection(Vector3 direction) =>
             this.direction = direction;
 
         private void FixedUpdate()
         {
             Move();
+            Rotate();
         }
 
         public void SetMovePoint(Vector3 point)
@@ -47,33 +53,36 @@ namespace Scripts.Units.Movement
 
         private IEnumerator MoveToPoint(Vector3 point)
         {
-            var data = CalculateData();
+            var data = CalculatePointData(point);
             var tickTime = new WaitForSeconds(movePointUpdateTime);
             
             while (!data.ReachedDestination)
             {
-                data = CalculateData();
+                data = CalculatePointData(point);
                 SetMovementDirection(data.Direction);
                 yield return tickTime;
             }
 
             SetMovementDirection(Vector3.zero);
+        }
+        
+        private MoveToPointData CalculatePointData(Vector3 point)
+        {
+            var difference = point - transform.position;
+            var sqrMagnitude = difference.sqrMagnitude;
 
-            MoveToPointData CalculateData()
+            return new MoveToPointData()
             {
-                var difference = point - transform.position;
-                var sqrMagnitude = difference.sqrMagnitude;
-
-                return new MoveToPointData()
-                {
-                    Direction = difference.normalized,
-                    ReachedDestination = sqrMagnitude <= reachedDestination
-                };
-            }
+                Direction = difference.normalized,
+                ReachedDestination = sqrMagnitude <= reachedDestination
+            };
         }
 
         private void Move()
         {
+            if (direction.sqrMagnitude < lift)
+                return;
+            
             targetVelocity = direction * speed;
 
             smoothedVelocity =
@@ -81,6 +90,17 @@ namespace Scripts.Units.Movement
                     ref currentVelocity, smoothness);
 
             characterController.Move(smoothedVelocity * Time.deltaTime);
+        }
+        
+        private void Rotate()
+        {
+            if (direction.sqrMagnitude < lift)
+                return;
+            
+            var targetRotation = Quaternion.LookRotation(direction);
+
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
         
         public struct MoveToPointData

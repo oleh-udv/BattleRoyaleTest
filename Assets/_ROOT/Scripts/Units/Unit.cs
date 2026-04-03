@@ -1,6 +1,7 @@
 namespace Scripts.Units
 {
     using System;
+    using Animations;
     using Movement;
     using Settings;
     using UnityEngine;
@@ -8,6 +9,8 @@ namespace Scripts.Units
     public abstract class Unit : MonoBehaviour
     {
         [SerializeField] protected UnitMovement unitMovement;
+        [SerializeField] protected UnitAnimation unitAnimation;
+        
         public event Action OnSetup;
         
         public void Setup(LevelingSettings settings)
