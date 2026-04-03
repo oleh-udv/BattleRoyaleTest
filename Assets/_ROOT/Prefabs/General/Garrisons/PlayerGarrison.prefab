@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161830659444224984}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.79, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd5bd35b1b1469c808eee829bf2ca41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitsLevelingSettings: {fileID: 11400000, guid: 7f2d493945840be42a215e11c8ca00c5, type: 2}
+  spawnTimerTime: 7
   buyZone: {fileID: 8883942136339559712}
   isBought: 0
 --- !u!1 &8749060518525332137

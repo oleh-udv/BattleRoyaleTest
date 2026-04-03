@@ -56,8 +56,8 @@ namespace Scripts.Zones
 
         private void StartProgress()
         {
-            Wallet.Put(10);
-            Debug.Log("Money " + Wallet.Balance);
+            Wallet.Put(10); //
+            
             buyCoroutine = StartCoroutine(Withdraw());
         }
 
@@ -69,16 +69,13 @@ namespace Scripts.Zones
 
         private IEnumerator Withdraw()
         {
-            Debug.Log("Wait " +  startWait);
             yield return new WaitForSeconds(startWait);
-            Debug.Log("End wait");
 
             int takeValue = 0;
             var tickWait =  new WaitForSeconds(tickTime);
             
             while (!isBought || Wallet.Balance > 0)
             {
-                Debug.Log("tick");
                 takeValue = Wallet.IsCanTake(priceForTick) ? priceForTick : Wallet.Balance;
                 Wallet.Take(takeValue);
                 remainingAmount -= takeValue;
@@ -95,7 +92,6 @@ namespace Scripts.Zones
             if (remainingAmount > 0)
                 return;
 
-            Debug.Log("Buy");
             StopProgress();
             
             isBought = true;

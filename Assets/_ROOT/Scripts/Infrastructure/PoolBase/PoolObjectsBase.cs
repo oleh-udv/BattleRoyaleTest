@@ -10,12 +10,10 @@ namespace Scripts.Infrastructure.PoolBase
 
         protected List<T> pool;
 
-        public PoolObjectsBase(T prefab, Transform container, int count)
+        public PoolObjectsBase(T prefab, Transform container)
         {
             this.prefab = prefab;
             this.container = container;
-
-            CreatePool(count);
         }
 
         public bool HasFreeElements(out T element)
@@ -43,7 +41,7 @@ namespace Scripts.Infrastructure.PoolBase
                 return CreateObject();
         }
 
-        protected void CreatePool(int count)
+        public void CreatePool(int count)
         {
             pool = new List<T>(count);
             for (int i = 0; i < count; i++)

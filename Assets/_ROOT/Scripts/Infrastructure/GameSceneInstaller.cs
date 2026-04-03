@@ -4,7 +4,7 @@ namespace Scripts.Infrastructure
     using Currencises;
     using Input;
     using LevelBased;
-    using Units.PlayerArmy;
+    using PlayerArmy;
     using UnityEngine;
     using Zenject;
 
