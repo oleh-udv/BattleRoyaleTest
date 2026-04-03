@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3462379938045277803}
   - component: {fileID: 1924241998383308962}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerGarrison
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 2234802997759075030}
   - component: {fileID: 2045405749579272818}
   - component: {fileID: 8195567084967716377}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}

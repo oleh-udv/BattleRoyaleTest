@@ -13,12 +13,5 @@ namespace Scripts.Units.Settings
         {
             return levelingSettings.FirstOrDefault(s => s.Level == level);
         }
-
-        [System.Serializable]
-        public struct LevelingSettings
-        {
-            public int Level;
-            public UnitSettings UnitSettings;
-        }
     }
 }

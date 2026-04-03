@@ -19,7 +19,7 @@ namespace Scripts.Garrisons
         [SerializeField] private BuyZone buyZone;
         [SerializeField] private bool isBought;
 
-        public UnitLevelingSettings.LevelingSettings UnitLevelingSettings 
+        public LevelingSettings UnitLevelingSettings 
             => unitsLevelingSettings.GetSettingsByLevel(currentLevel);
         
         private int currentLevel;
@@ -37,6 +37,20 @@ namespace Scripts.Garrisons
         private void OnDestroy()
         {
             buyZone.OnBought -= Activate;
+        }
+        
+        public void StartSpawnTimer()
+        {
+            spawnTimerActive = true;
+            spawnTimer = StartCoroutine(SpawnTimer());
+        }
+
+        public void StopSpawnTimer()
+        {
+            spawnTimerActive = false;
+            
+            if(spawnTimer != null)
+                StopCoroutine(spawnTimer);
         }
 
         private void CheckActive()
@@ -65,20 +79,6 @@ namespace Scripts.Garrisons
         {
             StopSpawnTimer();
             OnDeactivate?.Invoke();
-        }
-
-        private void StartSpawnTimer()
-        {
-            spawnTimerActive = true;
-            spawnTimer = StartCoroutine(SpawnTimer());
-        }
-
-        private void StopSpawnTimer()
-        {
-            spawnTimerActive = false;
-            
-            if(spawnTimer != null)
-                StopCoroutine(spawnTimer);
         }
 
         private IEnumerator SpawnTimer()

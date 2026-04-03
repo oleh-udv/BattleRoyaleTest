@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerArmyUnit Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1911663489326240897, guid: 89663f05c03be404983b5514ce97f198, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3408290350715246636, guid: 89663f05c03be404983b5514ce97f198, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -52,6 +56,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}
+      propertyPath: reachedDestination
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}
+      propertyPath: movePointUpdateTime
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -60,6 +76,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4203436817458749888}
   m_SourcePrefab: {fileID: 100100000, guid: 89663f05c03be404983b5514ce97f198, type: 3}
+--- !u!114 &2906750355181399119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}
+  m_PrefabInstance: {fileID: 5470534911068186730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5867250596335615211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13f3ccbfd8a54db08888e5b0a9327200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5867250596335615211 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1911663489326240897, guid: 89663f05c03be404983b5514ce97f198, type: 3}
@@ -77,3 +104,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66f2d13507d4c239d40a20206101520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitMovement: {fileID: 2906750355181399119}
