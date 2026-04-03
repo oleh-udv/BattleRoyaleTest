@@ -1,6 +1,8 @@
 namespace Scripts.Units.Player
 {
-    public class Player
+    using UnityEngine;
+
+    public class Player : MonoBehaviour
     {
         
     }
