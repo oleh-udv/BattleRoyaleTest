@@ -241,10 +241,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 7603257199923661175}
+  view: {fileID: 7603257199923661160}
   unitMovement: {fileID: 9208409411914340432}
   unit: {fileID: 6716137581943867011}
   runVelocityLift: 0.05
   waitDeathTime: 1
+  scaleByLevel:
+  - 1
+  - 1.1
 --- !u!114 &9208409411914340432 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}

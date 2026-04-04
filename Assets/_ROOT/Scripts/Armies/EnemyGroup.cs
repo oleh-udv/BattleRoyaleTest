@@ -52,7 +52,6 @@ namespace Scripts.Armies
 
         public void ReturnUnits()
         {
-            Debug.Log("ReturnUnits");
             foreach (var unit in units)
             {
                 if (unit.IsAlive)

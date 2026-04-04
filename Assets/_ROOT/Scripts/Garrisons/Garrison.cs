@@ -17,6 +17,7 @@ namespace Scripts.Garrisons
         
         [Header("Buy")]
         [SerializeField] private BuyZone buyZone;
+        [SerializeField] private BuyZone levelUpBuyZone;
         [SerializeField] private bool isBought;
 
         public LevelingSettings UnitLevelingSettings 
@@ -32,11 +33,13 @@ namespace Scripts.Garrisons
         private void Start()
         {
             CheckActive();
+            levelUpBuyZone.OnBought += LevelUp; 
         }
 
         private void OnDestroy()
         {
             buyZone.OnBought -= Activate;
+            levelUpBuyZone.OnBought -= LevelUp; 
             StopSpawnTimer();
         }
         
@@ -73,6 +76,8 @@ namespace Scripts.Garrisons
         {
             buyZone.OnBought -= Activate;
             StartSpawnTimer();
+            levelUpBuyZone.Setup();
+            levelUpBuyZone.gameObject.SetActive(true);
             OnActivate?.Invoke();
         }
 
@@ -80,6 +85,12 @@ namespace Scripts.Garrisons
         {
             StopSpawnTimer();
             OnDeactivate?.Invoke();
+        }
+
+        private void LevelUp()
+        {
+            levelUpBuyZone.gameObject.SetActive(false);
+            currentLevel++;
         }
 
         private IEnumerator SpawnTimer()

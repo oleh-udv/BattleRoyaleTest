@@ -1,6 +1,7 @@
 namespace Scripts.Units.Animations
 {
     using System;
+    using System.Collections.Generic;
     using DG.Tweening;
     using Movement;
     using UnityEngine;
@@ -12,21 +13,26 @@ namespace Scripts.Units.Animations
         private UnitAnimationConstants animationConstants;
 
         [SerializeField] private Animator animator;
+        [SerializeField] private Transform view;
         [SerializeField] private UnitMovement unitMovement;
         [SerializeField] private Unit unit;
 
         [Header("Settings")] 
         [SerializeField] private float runVelocityLift = 0.05f;
         [SerializeField] private float waitDeathTime = 1f;
+
+        [Header("LevelUp")] 
+        [SerializeField] private List<float> scaleByLevel;
         
         private Sequence deathSequence;
         private bool isСalmly = true;
 
-        private void Start()
+        private void Awake()
         {
             unit.OnDied += UnitDead;
             unit.OnShoot += Attack;
             unit.OnEndBattle += ReleaseUnit;
+            unit.OnSetup += UpdateView;
         }
 
         private void OnDestroy()
@@ -34,6 +40,7 @@ namespace Scripts.Units.Animations
             unit.OnDied -= UnitDead;
             unit.OnShoot -= Attack;
             unit.OnEndBattle -= ReleaseUnit;
+            unit.OnSetup -= UpdateView;
             
             deathSequence.Kill();
         }
@@ -45,6 +52,12 @@ namespace Scripts.Units.Animations
                 var velocityMagnitude = unitMovement.Direction.normalized.sqrMagnitude;
                 SetState(runVelocityLift < velocityMagnitude ? AnimationStates.Run : AnimationStates.Idle);
             }
+        }
+
+        private void UpdateView()
+        {
+            var level = unit.Level;
+            view.localScale = Vector3.one * scaleByLevel[level];
         }
 
         public void SetState(AnimationStates state)
