@@ -8,15 +8,25 @@ namespace Scripts.Zones
     {
         [SerializeField] private List<Transform> unitPoints;
         [SerializeField] private int startPointsCount;
+        [SerializeField] private int upgradePointsCount;
+        [SerializeField] private BuyZone buyZone;
 
         private List<Transform> activePoints;
         private int freePointIndex;
+
+        public event Action OnUpgrade;
 
         public event Action OnFull;
 
         private void Start()
         {
             ActivatePoints(startPointsCount);
+            buyZone.OnBought += Upgrade;
+        }
+
+        private void OnDestroy()
+        {
+            buyZone.OnBought -= Upgrade;
         }
 
         public Vector3 GetFreePoint()
@@ -39,12 +49,15 @@ namespace Scripts.Zones
 
         private void Upgrade()
         {
-            
+            buyZone.OnBought -= Upgrade;
+            ActivatePoints(upgradePointsCount);
+
+            OnUpgrade?.Invoke();
         }
 
         private void ActivatePoints(int count)
         {
-            activePoints =  new List<Transform>(count);
+            activePoints = new List<Transform>(count);
 
             for (int i = 0; i < count; i++)
             {

@@ -15,6 +15,7 @@ namespace Scripts.Armies
         [SerializeField] private EnemyArmy enemyArmy;
 
         private List<Unit> playerArmy = new();
+        private bool inBattle;
 
         public event Action OnStartProduction;
         public event Action OnStopProduction;
@@ -26,6 +27,7 @@ namespace Scripts.Armies
             armyFormationZone.OnFull += StopProduction;
             startBattleTrigger.OnPlayerEnter += PrepareToBattle;
             enemyArmy.OnGroupLose += ChangeTarget;
+            armyFormationZone.OnUpgrade += CheckProduction;
         }
 
         private void OnDestroy()
@@ -33,6 +35,7 @@ namespace Scripts.Armies
             armyFormationZone.OnFull -= StopProduction;
             startBattleTrigger.OnPlayerEnter -= PrepareToBattle;
             enemyArmy.OnGroupLose -= ChangeTarget;
+            armyFormationZone.OnUpgrade -= CheckProduction;
             
             EndBattle(false);
         }
@@ -53,11 +56,18 @@ namespace Scripts.Armies
             MoveToBattle();
         }
 
+        private void CheckProduction()
+        {
+            if(!inBattle)
+                StartProduction();
+        }
+
         private void MoveToBattle()
         {
             if (playerArmy.Count == 0)
                 return;
-            
+
+            inBattle = true;
             StopProduction();
             enemyArmy.SetAttackedUnits(playerArmy);
             armyFormationZone.ClearPoints();
@@ -77,7 +87,7 @@ namespace Scripts.Armies
             if (targetExist)
                 MoveToBattle();
             else
-                playerArmy.ForEach(u => u.UnitMovement.StopMoveToPoint());
+                playerArmy.ForEach(u => u.UnitMovement.SetBlockMove(true));
         }
 
         private void CheckEndBattle()
@@ -95,6 +105,7 @@ namespace Scripts.Armies
             }
             
             playerArmy.Clear();
+            inBattle = false;
             
             if(startProduction)
                 StartProduction();

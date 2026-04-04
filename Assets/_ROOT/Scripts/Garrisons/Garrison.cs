@@ -45,6 +45,9 @@ namespace Scripts.Garrisons
         
         public void StartSpawnTimer()
         {
+            if (spawnTimerActive)
+                return;
+            
             spawnTimerActive = true;
             spawnTimer = StartCoroutine(SpawnTimer());
         }
@@ -61,9 +64,7 @@ namespace Scripts.Garrisons
         {
             if (!isBought)
             {
-                buyZone.Setup();
                 buyZone.OnBought += Activate;
-                    
                 Deactivate();
             }
             else
@@ -76,7 +77,6 @@ namespace Scripts.Garrisons
         {
             buyZone.OnBought -= Activate;
             StartSpawnTimer();
-            levelUpBuyZone.Setup();
             levelUpBuyZone.gameObject.SetActive(true);
             OnActivate?.Invoke();
         }

@@ -34,9 +34,8 @@ namespace Scripts.Zones
         private int remainingAmount;
         private bool isBought;
 
-        public void Setup()
+        private void Start()
         {
-            gameObject.SetActive(true);
             LoadRemainingAmount();
         }
 

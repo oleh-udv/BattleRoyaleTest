@@ -24,6 +24,8 @@ namespace Scripts.Units.Movement
         private Vector3 smoothedVelocity;
         private Vector3 currentVelocity;
         private Vector3 lastMovePoint;
+
+        private bool moveBlocked;
         
         private Coroutine moveToPoint;
 
@@ -37,12 +39,18 @@ namespace Scripts.Units.Movement
 
         private void FixedUpdate()
         {
+            if (moveBlocked)
+                return;
+            
             Move();
             Rotate();
         }
 
         public void SetMovePoint(Vector3 point)
         {
+            if(moveBlocked)
+                return;
+            
             lastMovePoint = point;
             
             StopMoveToPoint();
@@ -60,6 +68,13 @@ namespace Scripts.Units.Movement
                 StopCoroutine(moveToPoint);
             
             SetMovementDirection(Vector3.zero);
+        }
+
+        public void SetBlockMove(bool isBlocked)
+        {
+            moveBlocked = isBlocked;
+            if(isBlocked)
+                SetMovementDirection(Vector3.zero);
         }
 
         private IEnumerator MoveToPoint(Vector3 point)
