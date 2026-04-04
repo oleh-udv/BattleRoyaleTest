@@ -20,6 +20,7 @@ namespace Scripts.Garrisons
         [SerializeField] private int unitsPoolCount;
         
         private PlayerArmyPool playerArmyPool;
+        private bool prodatcionIsActive = true;
 
         private void Start()
         {
@@ -27,7 +28,12 @@ namespace Scripts.Garrisons
 
             playerArmy.OnStartProduction += StartProduction;
             playerArmy.OnStopProduction += StopProduction;
-            garrisons.ForEach(g => g.OnSpawnTimerEnd += SpawnUnit);
+            
+            foreach (var garrison in garrisons)
+            {
+                garrison.OnActivate += ActivateGarrison;
+                garrison.OnSpawnTimerEnd += SpawnUnit;
+            }
         }
         
         private void OnDestroy()
@@ -35,16 +41,29 @@ namespace Scripts.Garrisons
             StopProduction();
             playerArmy.OnStartProduction -= StartProduction;
             playerArmy.OnStopProduction -= StopProduction;
-            garrisons.ForEach(g => g.OnSpawnTimerEnd -= SpawnUnit);
+            
+            foreach (var garrison in garrisons)
+            {
+                garrison.OnActivate -= ActivateGarrison;
+                garrison.OnSpawnTimerEnd -= SpawnUnit;
+            }
+        }
+
+        private void ActivateGarrison()
+        {
+            if (prodatcionIsActive)
+                StartProduction();
         }
 
         private void StartProduction()
         {
+            prodatcionIsActive = true;
             garrisons.ForEach(g => g.StartSpawnTimer());
         }
 
         private void StopProduction()
         {
+            prodatcionIsActive = false;
             garrisons.ForEach(g => g.StopSpawnTimer());
         }
 

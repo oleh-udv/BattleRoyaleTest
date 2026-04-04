@@ -2,7 +2,6 @@ namespace Scripts.Pickable
 {
     using UnityEngine;
 
-    [RequireComponent(typeof(Collider))]
     public class PickableCurrency : MonoBehaviour, IPickable
     {
         [SerializeField] private Collider collider;

@@ -1,5 +1,6 @@
 namespace Scripts.Units.Player
 {
+    using System;
     using Currencises;
     using Pickable;
     using UnityEngine;
@@ -9,6 +10,11 @@ namespace Scripts.Units.Player
     {
         [Inject]
         private Wallet Wallet { get; set; }
+
+        private int currentLevel;
+        
+        public int Level => currentLevel;
+        public event Action OnLevelUp; 
 
         private void OnTriggerEnter(Collider other)
         {
@@ -28,6 +34,12 @@ namespace Scripts.Units.Player
                     Wallet.Put(pickable.GetValue());
                     break;
             }
+        }
+
+        public void LevelUp()
+        {
+            currentLevel++;
+            OnLevelUp?.Invoke();
         }
     }
 }

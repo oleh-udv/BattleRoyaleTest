@@ -135,9 +135,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c78f94d5ff04aeda77b70a23a332c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 7224485503739684347}
+  view: {fileID: 3132209657181551496}
   animator: {fileID: 3132209657181551511}
   unitMovement: {fileID: 6855264585009703622}
   runVelocityLift: 0.05
+  scaleByLevel:
+  - 1
+  - 1.2
 --- !u!114 &6855264585009703622 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}

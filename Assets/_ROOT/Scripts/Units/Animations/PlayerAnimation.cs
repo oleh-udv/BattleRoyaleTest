@@ -1,6 +1,9 @@
 namespace Scripts.Units.Animations
 {
+    using System;
+    using System.Collections.Generic;
     using Movement;
+    using Player;
     using UnityEngine;
     using Zenject;
 
@@ -8,13 +11,28 @@ namespace Scripts.Units.Animations
     {
         [Inject]
         private UnitAnimationConstants animationConstants;
-        
+
+        [SerializeField] private Player player;
+        [SerializeField] private Transform view;
         [SerializeField] private Animator animator;
         [SerializeField] private UnitMovement unitMovement;
         
         [Header("Settings")] 
         [SerializeField] private float runVelocityLift = 0.05f;
         
+        [Header("LevelUp")] 
+        [SerializeField] private List<float> scaleByLevel;
+        
+        private void Start()
+        {
+            player.OnLevelUp += LevelUpAnimation;
+        }
+
+        private void OnDestroy()
+        {
+            player.OnLevelUp -= LevelUpAnimation;
+        }
+
         private void Update()
         {
             var velocityMagnitude = unitMovement.Direction.normalized.sqrMagnitude;
@@ -34,6 +52,12 @@ namespace Scripts.Units.Animations
                     animator.ResetTrigger(animationConstants.IdleTrigger);
                     break;
             }
+        }
+
+        private void LevelUpAnimation()
+        {
+            var level = player.Level;
+            view.localScale = Vector3.one * scaleByLevel[level];
         }
     }
 }

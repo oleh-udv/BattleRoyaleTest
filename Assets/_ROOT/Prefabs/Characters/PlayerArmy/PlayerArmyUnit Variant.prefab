@@ -263,6 +263,7 @@ MonoBehaviour:
   scaleByLevel:
   - 0.8
   - 1
+  - 1.1
 --- !u!114 &2906750355181399119 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}

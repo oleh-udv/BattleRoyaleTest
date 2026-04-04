@@ -1,38 +1,29 @@
-namespace Scripts.Zones
+namespace Scripts.Zones.BuyZones
 {
-    using System;
     using System.Collections;
     using Currencises;
     using Units.Player;
     using UnityEngine;
     using Zenject;
 
-    [RequireComponent(typeof(Collider))]
-    public class BuyZone : MonoBehaviour
+    public abstract class BuyZoneBase : MonoBehaviour
     {
         [Inject] 
         private Wallet Wallet { get; set; }
 
         [SerializeField] private Collider collider;
 
-        [Header("Price")] 
-        [Range(1, 10000)]
-        [SerializeField] private int price;
-
         [Header("Settings")]
         [Range(1, 100)]
         [SerializeField] private int priceForTick = 1;
         [Range(0.05f, 1f)]
         [SerializeField] private float tickTime = 0.1f;
-        [SerializeField] private float deactivateTime = 0.25f;
         [SerializeField] private float startWait = 1f;
 
-        public event Action OnTakeResource;
-        public event Action OnBought;
-        
         private Coroutine buyCoroutine;
-        private int remainingAmount;
-        private bool isBought;
+        protected int startPrice;
+        protected int remainingAmount;
+        protected bool isBought;
 
         private void Start()
         {
@@ -51,17 +42,29 @@ namespace Scripts.Zones
                 StopProgress();
         }
 
-        private void LoadRemainingAmount()
+        protected virtual void LoadRemainingAmount()
         {
-            remainingAmount = price;
+            startPrice = 0;
+            remainingAmount = 0;
+        }
+        
+        protected virtual void Buy()
+        {
+            isBought = true;
+        }
+        
+        protected void Deactivate()
+        {
+            gameObject.SetActive(false);
+            StopProgress();
         }
 
-        private void StartProgress()
+        protected void StartProgress()
         {
             buyCoroutine = StartCoroutine(Withdraw());
         }
 
-        private void StopProgress()
+        protected void StopProgress()
         {
             if(buyCoroutine != null)
                 StopCoroutine(buyCoroutine);
@@ -80,8 +83,6 @@ namespace Scripts.Zones
                 Wallet.Take(takeValue);
                 remainingAmount -= takeValue;
                 
-                OnTakeResource?.Invoke();
-
                 CheckBuy();
                 yield return tickWait;
             }
@@ -93,12 +94,7 @@ namespace Scripts.Zones
                 return;
 
             StopProgress();
-            
-            isBought = true;
-            enabled = false;
-            collider.enabled = false;
-            
-            OnBought?.Invoke();
+            Buy();
         }
     }
 }

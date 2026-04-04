@@ -2,10 +2,8 @@ namespace Scripts.Garrisons
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using Units.Settings;
     using UnityEngine;
-    using Zones;
 
     public class Garrison : MonoBehaviour
     {
@@ -15,31 +13,26 @@ namespace Scripts.Garrisons
         [Header("Timer")] 
         [SerializeField] private float spawnTimerTime;
         
-        [Header("Buy")]
-        [SerializeField] private BuyZone buyZone;
-        [SerializeField] private BuyZone levelUpBuyZone;
-        [SerializeField] private bool isBought;
-
         public LevelingSettings UnitLevelingSettings 
             => unitsLevelingSettings.GetSettingsByLevel(currentLevel);
         
         private int currentLevel;
         private bool spawnTimerActive;
         private Coroutine spawnTimer;
+
+        public int Level => currentLevel;
+        
         public event Action OnActivate;
         public event Action OnDeactivate;
         public event Action<Garrison> OnSpawnTimerEnd;
 
         private void Start()
         {
-            CheckActive();
-            levelUpBuyZone.OnBought += LevelUp; 
+            OnActivate?.Invoke();
         }
 
         private void OnDestroy()
         {
-            buyZone.OnBought -= Activate;
-            levelUpBuyZone.OnBought -= LevelUp; 
             StopSpawnTimer();
         }
         
@@ -59,37 +52,9 @@ namespace Scripts.Garrisons
             if(spawnTimer != null)
                 StopCoroutine(spawnTimer);
         }
-
-        private void CheckActive()
-        {
-            if (!isBought)
-            {
-                buyZone.OnBought += Activate;
-                Deactivate();
-            }
-            else
-            {
-                Activate();
-            }
-        }
         
-        private void Activate()
+        public void LevelUp()
         {
-            buyZone.OnBought -= Activate;
-            StartSpawnTimer();
-            levelUpBuyZone.gameObject.SetActive(true);
-            OnActivate?.Invoke();
-        }
-
-        private void Deactivate()
-        {
-            StopSpawnTimer();
-            OnDeactivate?.Invoke();
-        }
-
-        private void LevelUp()
-        {
-            levelUpBuyZone.gameObject.SetActive(false);
             currentLevel++;
         }
 

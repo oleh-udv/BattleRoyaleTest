@@ -2,14 +2,15 @@ namespace Scripts.Zones
 {
     using System;
     using System.Collections.Generic;
+    using Units.Player;
     using UnityEngine;
 
     public class ArmyFormationZone : MonoBehaviour
     {
+        [SerializeField] private Player player;
         [SerializeField] private List<Transform> unitPoints;
         [SerializeField] private int startPointsCount;
         [SerializeField] private int upgradePointsCount;
-        [SerializeField] private BuyZone buyZone;
 
         private List<Transform> activePoints;
         private int freePointIndex;
@@ -21,12 +22,12 @@ namespace Scripts.Zones
         private void Start()
         {
             ActivatePoints(startPointsCount);
-            buyZone.OnBought += Upgrade;
+            player.OnLevelUp += Upgrade;
         }
 
         private void OnDestroy()
         {
-            buyZone.OnBought -= Upgrade;
+            player.OnLevelUp -= Upgrade;
         }
 
         public Vector3 GetFreePoint()
@@ -49,9 +50,7 @@ namespace Scripts.Zones
 
         private void Upgrade()
         {
-            buyZone.OnBought -= Upgrade;
             ActivatePoints(upgradePointsCount);
-
             OnUpgrade?.Invoke();
         }
 
