@@ -22,7 +22,7 @@ namespace Scripts.Units.EnemyArmy
 
         public void ReturnToStartPoint()
         {
-            MoveToPoint(startPoint);
+            UnitMovement.SetMovePoint(startPoint);
         }
     }
 }

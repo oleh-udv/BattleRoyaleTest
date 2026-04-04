@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 5
   damage: 2
-  shootInterval: 1.5
+  shootInterval: 0.5

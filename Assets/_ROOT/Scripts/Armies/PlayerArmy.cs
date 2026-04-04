@@ -24,15 +24,33 @@ namespace Scripts.Armies
             StartProduction();
             
             armyFormationZone.OnFull += StopProduction;
-            startBattleTrigger.OnPlayerEnter += MoveToBattle;
+            startBattleTrigger.OnPlayerEnter += PrepareToBattle;
+            enemyArmy.OnGroupLose += ChangeTarget;
         }
 
         private void OnDestroy()
         {
             armyFormationZone.OnFull -= StopProduction;
-            startBattleTrigger.OnPlayerEnter -= MoveToBattle;
-
+            startBattleTrigger.OnPlayerEnter -= PrepareToBattle;
+            enemyArmy.OnGroupLose -= ChangeTarget;
+            
             EndBattle(false);
+        }
+        
+        public void AddUnit(Unit unit, LevelingSettings levelingSettings)
+        {
+            unit.Setup(levelingSettings);
+            playerArmy.Add(unit);
+
+            var movePoint = armyFormationZone.GetFreePoint();
+            unit.UnitMovement.SetMovePoint(movePoint);
+        }
+
+        private void PrepareToBattle()
+        {
+            playerArmy.ForEach(u => u.OnDied += CheckEndBattle);
+            
+            MoveToBattle();
         }
 
         private void MoveToBattle()
@@ -43,23 +61,23 @@ namespace Scripts.Armies
             StopProduction();
             enemyArmy.SetAttackedUnits(playerArmy);
             armyFormationZone.ClearPoints();
-            
-            playerArmy.ForEach(u => u.OnDied += CheckEndBattle);
 
             foreach (var unit in playerArmy)
             {
-                unit.MoveToPoint(enemyArmy.GetAttackPoint());
+                if(!unit.IsAlive)
+                    continue;
+                
+                unit.UnitMovement.SetMovePoint(enemyArmy.GetAttackPoint());
                 unit.SetReadyToFight(true);
             }
         }
-
-        public void AddUnit(Unit unit, LevelingSettings levelingSettings)
+        
+        private void ChangeTarget(bool targetExist)
         {
-            unit.Setup(levelingSettings);
-            playerArmy.Add(unit);
-
-            var movePoint = armyFormationZone.GetFreePoint();
-            unit.MoveToPoint(movePoint);
+            if (targetExist)
+                MoveToBattle();
+            else
+                playerArmy.ForEach(u => u.UnitMovement.StopMoveToPoint());
         }
 
         private void CheckEndBattle()

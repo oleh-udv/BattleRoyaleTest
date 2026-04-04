@@ -13,9 +13,16 @@ namespace Scripts.Armies
         private List<Unit> attackedUnits = new();
         
         private EnemyGroup attackedGroup;
+        public event Action<bool> OnGroupLose;
+
+        private void Start()
+        {
+            enemyGroups.ForEach(g => g.OnGroupLose += GroupLose);
+        }
 
         private void OnDestroy()
         {
+            enemyGroups.ForEach(g => g.OnGroupLose -= GroupLose);
             attackedUnits.ForEach(u => u.OnDied -= CheckEndBattle);
             attackedUnits.Clear();
         }
@@ -24,10 +31,7 @@ namespace Scripts.Armies
         {
             attackedGroup = enemyGroups.FirstOrDefault(g => g.IsAlive);
             if (attackedGroup == null)
-            {
-                LoseArmy();
                 return Vector3.zero;
-            }
 
             attackedGroup.SetWaitUnits(true);
             return attackedGroup.transform.position;
@@ -35,8 +39,15 @@ namespace Scripts.Armies
 
         public void SetAttackedUnits(List<Unit> units)
         {
+            attackedUnits.Clear();
             attackedUnits.AddRange(units);
             attackedUnits.ForEach(u => u.OnDied += CheckEndBattle);
+        }
+
+        private void GroupLose()
+        {
+            var armyDied = enemyGroups.Any(g => g.IsAlive);
+            OnGroupLose?.Invoke(armyDied);
         }
 
         private void CheckEndBattle()
@@ -57,11 +68,6 @@ namespace Scripts.Armies
                 attackedGroup.SetWaitUnits(false);
                 attackedGroup.ReturnUnits();
             }
-        }
-
-        private void LoseArmy()
-        {
-            //
         }
     }
 }

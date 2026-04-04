@@ -76,7 +76,7 @@ namespace Scripts.Armies
                 if(!unit.IsAlive)
                     continue;
                 
-                unit.MoveToPoint(playerArmyUnit.transform.position);
+                unit.UnitMovement.SetMovePoint(playerArmyUnit.transform.position);
                 unit.SetReadyToFight(true);
             }
 

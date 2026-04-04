@@ -32,11 +32,12 @@ namespace Scripts.Units
         private float shootInterval;
         private Coroutine shootCoroutine;
         private BulletsPool bulletsPool;
+        private bool isInAttack;
         
         protected List<Unit> attackOrder = new();
 
+        public UnitMovement UnitMovement => unitMovement;
         public int Level { get; private set; }
-
         public bool IsAlive { get; private set; } = true;
 
         public event Action OnSetup;
@@ -67,11 +68,6 @@ namespace Scripts.Units
             OnSetup?.Invoke();
         }
 
-        public void MoveToPoint(Vector3 point)
-        {
-            unitMovement.SetMovePoint(point);
-        }
-
         public void SetReadyToFight(bool isReady)
         {
             attackVisionCollider.enabled = isReady;
@@ -83,11 +79,13 @@ namespace Scripts.Units
                 return;
 
             attackOrder.Add(unit);
-            Attack();
+            if(!isInAttack)
+                Attack();
         }
 
         private void Attack()
         {
+            isInAttack = true;
             unitMovement.StopMoveToPoint();
             shootCoroutine = StartCoroutine(ShootRoutine());
         }
@@ -97,6 +95,8 @@ namespace Scripts.Units
             if(shootCoroutine != null)
                 StopCoroutine(shootCoroutine);
             
+            attackOrder.Clear();
+            isInAttack = false;
             OnEndBattle?.Invoke();
         }
 
@@ -122,9 +122,13 @@ namespace Scripts.Units
 
         private void Shoot(Unit unit)
         {
+            if(!unit.IsAlive)
+                return;
+            
             var bullet = bulletsPool.GetFreeElement();
             bullet.transform.position = shootPoint.position;
-            bullet.Setup(unit, unit.transform.position, damage);
+            bullet.transform.SetParent(transform.parent);
+            bullet.Setup(unit, bulletContainer, unit.transform.position, damage);
             bullet.gameObject.SetActive(true);
         }
 
@@ -140,7 +144,9 @@ namespace Scripts.Units
             characterController.enabled = false;
             IsAlive = false;
             unitMovement.enabled = false;
-            StopAttack();
+            
+            if(shootCoroutine != null)
+                StopCoroutine(shootCoroutine);
             
             OnDied?.Invoke();
         }
