@@ -58,13 +58,11 @@ namespace Scripts.Armies
         
         private void EndBattle()
         {
-            Debug.Log("EnemyEnd");
             attackedUnits.ForEach(u => u.OnDied -= CheckEndBattle);
             attackedUnits.Clear();
 
             if (attackedGroup && attackedGroup.IsAlive)
             {
-                Debug.Log("Command");
                 attackedGroup.SetWaitUnits(false);
                 attackedGroup.ReturnUnits();
             }

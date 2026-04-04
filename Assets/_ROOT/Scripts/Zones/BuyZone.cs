@@ -7,10 +7,13 @@ namespace Scripts.Zones
     using UnityEngine;
     using Zenject;
 
+    [RequireComponent(typeof(Collider))]
     public class BuyZone : MonoBehaviour
     {
         [Inject] 
         private Wallet Wallet { get; set; }
+
+        [SerializeField] private Collider collider;
 
         [Header("Price")] 
         [Range(1, 10000)]
@@ -56,8 +59,6 @@ namespace Scripts.Zones
 
         private void StartProgress()
         {
-            Wallet.Put(10); //
-            
             buyCoroutine = StartCoroutine(Withdraw());
         }
 
@@ -96,6 +97,7 @@ namespace Scripts.Zones
             
             isBought = true;
             enabled = false;
+            collider.enabled = false;
             
             OnBought?.Invoke();
         }

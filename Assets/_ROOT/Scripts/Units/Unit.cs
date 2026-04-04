@@ -135,7 +135,7 @@ namespace Scripts.Units
         public void GetDamage(int damage)
         {
             hp -= damage;
-            if (hp <= 0)
+            if (hp <= 0 && IsAlive)
                 Die();
         }
 

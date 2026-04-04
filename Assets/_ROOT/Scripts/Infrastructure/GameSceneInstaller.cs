@@ -5,6 +5,8 @@ namespace Scripts.Infrastructure
     using Currencises;
     using Input;
     using LevelBased;
+    using Pickable;
+    using UI.Counters;
     using Units;
     using Units.Animations;
     using UnityEngine;
@@ -14,6 +16,7 @@ namespace Scripts.Infrastructure
     {
         [SerializeField] private LevelCreatorBase levelCreator;
         [SerializeField] private VirtualCamera virtualCamera;
+        [SerializeField] private CurrencyCounter currencyCounter;
         
         public override void InstallBindings()
         {
@@ -24,6 +27,7 @@ namespace Scripts.Infrastructure
             BindCurrencies();
 
             BindConstants();
+            BindUI();
         }
 
         private void BindGameServices()
@@ -38,6 +42,7 @@ namespace Scripts.Infrastructure
             Container.BindInterfacesAndSelfTo<LevelsFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<UnitsFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<BulletsFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PickableCurrencyFactory>().AsSingle();
         }
 
         private void BindCamera()
@@ -53,6 +58,11 @@ namespace Scripts.Infrastructure
         private void BindConstants()
         {
             Container.Bind<UnitAnimationConstants>().AsSingle();
+        }
+
+        private void BindUI()
+        {
+            Container.Bind<CurrencyCounter>().FromInstance(currencyCounter).AsSingle();
         }
     }
 }
