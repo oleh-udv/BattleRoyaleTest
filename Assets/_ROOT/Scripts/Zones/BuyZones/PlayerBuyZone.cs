@@ -9,7 +9,7 @@ namespace Scripts.Zones.BuyZones
         [SerializeField] private Player player;
         [SerializeField] private List<int> prices;
         
-        private bool IsMaxLevel => player.Level >= prices.Count;
+        private bool IsMaxLevel => player.Level >= prices.Count - 1;
         
         protected override void LoadRemainingAmount()
         {
