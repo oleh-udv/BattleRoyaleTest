@@ -2,6 +2,7 @@ namespace Scripts.Armies
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Units;
     using Units.Settings;
     using UnityEngine;
@@ -30,6 +31,8 @@ namespace Scripts.Armies
         {
             armyFormationZone.OnFull -= StopProduction;
             startBattleTrigger.OnPlayerEnter -= MoveToBattle;
+
+            EndBattle(false);
         }
 
         private void MoveToBattle()
@@ -38,17 +41,16 @@ namespace Scripts.Armies
                 return;
             
             StopProduction();
+            enemyArmy.SetAttackedUnits(playerArmy);
+            armyFormationZone.ClearPoints();
+            
+            playerArmy.ForEach(u => u.OnDied += CheckEndBattle);
 
             foreach (var unit in playerArmy)
             {
                 unit.MoveToPoint(enemyArmy.GetAttackPoint());
                 unit.SetReadyToFight(true);
             }
-        }
-
-        public void EndBattle()
-        {
-            StartProduction();
         }
 
         public void AddUnit(Unit unit, LevelingSettings levelingSettings)
@@ -58,6 +60,26 @@ namespace Scripts.Armies
 
             var movePoint = armyFormationZone.GetFreePoint();
             unit.MoveToPoint(movePoint);
+        }
+
+        private void CheckEndBattle()
+        {
+            if (!playerArmy.Any(u => u.IsAlive))
+                EndBattle();
+        }
+
+        private void EndBattle(bool startProduction = true)
+        {
+            foreach (var unit in playerArmy)
+            {
+                unit.OnDied -= CheckEndBattle;
+                unit.SetReadyToFight(false);
+            }
+            
+            playerArmy.Clear();
+            
+            if(startProduction)
+                StartProduction();
         }
 
         private void StartProduction()

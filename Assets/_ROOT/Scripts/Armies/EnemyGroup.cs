@@ -50,6 +50,19 @@ namespace Scripts.Armies
             visionCollider.enabled = isWait;
         }
 
+        public void ReturnUnits()
+        {
+            Debug.Log("ReturnUnits");
+            foreach (var unit in units)
+            {
+                if (unit.IsAlive)
+                {
+                    unit.ReturnToStartPoint();
+                    unit.SetReadyToFight(false);
+                }
+            }
+        }
+
         private void CheckOnLose()
         {
             if(!IsAlive)
@@ -60,6 +73,9 @@ namespace Scripts.Armies
         {
             foreach (var unit in units)
             {
+                if(!unit.IsAlive)
+                    continue;
+                
                 unit.MoveToPoint(playerArmyUnit.transform.position);
                 unit.SetReadyToFight(true);
             }

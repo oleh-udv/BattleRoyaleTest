@@ -32,6 +32,7 @@ namespace Scripts.Garrisons
         
         private void OnDestroy()
         {
+            StopProduction();
             playerArmy.OnStartProduction -= StartProduction;
             playerArmy.OnStopProduction -= StopProduction;
             garrisons.ForEach(g => g.OnSpawnTimerEnd -= SpawnUnit);

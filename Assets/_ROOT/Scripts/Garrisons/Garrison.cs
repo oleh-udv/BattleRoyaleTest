@@ -37,6 +37,7 @@ namespace Scripts.Garrisons
         private void OnDestroy()
         {
             buyZone.OnBought -= Activate;
+            StopSpawnTimer();
         }
         
         public void StartSpawnTimer()
