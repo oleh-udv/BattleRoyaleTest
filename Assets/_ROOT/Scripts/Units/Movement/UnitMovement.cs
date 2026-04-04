@@ -49,6 +49,8 @@ namespace Scripts.Units.Movement
         {
             if(moveToPoint != null)
                 StopCoroutine(moveToPoint);
+            
+            SetMovementDirection(Vector3.zero);
         }
 
         private IEnumerator MoveToPoint(Vector3 point)

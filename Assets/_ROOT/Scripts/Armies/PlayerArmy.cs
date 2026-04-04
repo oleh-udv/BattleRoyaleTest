@@ -10,6 +10,8 @@ namespace Scripts.Armies
     public class PlayerArmy : MonoBehaviour
     {
         [SerializeField] private ArmyFormationZone armyFormationZone;
+        [SerializeField] private PlayerTrigger startBattleTrigger;
+        [SerializeField] private EnemyArmy enemyArmy;
 
         private List<Unit> playerArmy = new();
 
@@ -19,20 +21,32 @@ namespace Scripts.Armies
         private void Start()
         {
             StartProduction();
+            
             armyFormationZone.OnFull += StopProduction;
+            startBattleTrigger.OnPlayerEnter += MoveToBattle;
         }
 
         private void OnDestroy()
         {
             armyFormationZone.OnFull -= StopProduction;
+            startBattleTrigger.OnPlayerEnter -= MoveToBattle;
         }
 
-        public void MoveToButtle()
+        private void MoveToBattle()
         {
+            if (playerArmy.Count == 0)
+                return;
+            
             StopProduction();
+
+            foreach (var unit in playerArmy)
+            {
+                unit.MoveToPoint(enemyArmy.GetAttackPoint());
+                unit.SetReadyToFight(true);
+            }
         }
 
-        public void EndButtle()
+        public void EndBattle()
         {
             StartProduction();
         }

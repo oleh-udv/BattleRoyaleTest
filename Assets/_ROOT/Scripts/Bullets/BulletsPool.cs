@@ -1,23 +1,21 @@
-namespace Scripts.PlayerArmy
+namespace Scripts.Bullets
 {
     using Infrastructure.PoolBase;
-    using Units;
     using UnityEngine;
     using Zenject;
 
-    public class PlayerArmyPool : PoolObjectsBase<Unit>
+    public class BulletsPool : PoolObjectsBase<Bullet>
     {
-        private IFactory<Unit, Transform, Unit> factory;
+        private IFactory<Bullet, Transform, Bullet> factory;
         
-        public PlayerArmyPool(Unit prefab, Transform container, int count, IFactory<Unit, Transform, Unit> factory)
-            : base(prefab, container)
+        public BulletsPool(Bullet prefab, Transform container, int count, 
+            IFactory<Bullet, Transform, Bullet> factory) : base(prefab, container)
         {
             this.factory = factory;
             CreatePool(count);
         }
         
-
-        protected override Unit CreateObject()
+        protected override Bullet CreateObject()
         {
             var createdObject = factory.Create(prefab, container);
             pool.Add(createdObject);

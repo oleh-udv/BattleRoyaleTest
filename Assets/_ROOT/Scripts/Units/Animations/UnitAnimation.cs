@@ -10,20 +10,20 @@ namespace Scripts.Units.Animations
         [SerializeField] private UnitMovement unitMovement;
 
         [Header("Settings")] 
-        [SerializeField] private float runVelocity = 0.05f;
+        [SerializeField] private float runVelocityLift = 0.05f;
         
         private const string RunTrigger = "Run";
         private const string IdleTrigger = "Idle";
         
         private bool isAlive = true;
-        private bool IsСalmly = true;
+        private bool isСalmly = true;
 
         private void Update()
         {
-            if (isAlive && IsСalmly)
+            if (isAlive && isСalmly)
             {
                 var velocityMagnitude = unitMovement.Direction.normalized.sqrMagnitude;
-                SetState(runVelocity < velocityMagnitude ? AnimationStates.Run : AnimationStates.Idle);
+                SetState(runVelocityLift < velocityMagnitude ? AnimationStates.Run : AnimationStates.Idle);
             }
         }
 

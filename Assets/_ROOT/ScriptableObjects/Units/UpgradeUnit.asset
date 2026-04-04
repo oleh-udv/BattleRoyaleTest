@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46beae6cbe124712ae4ccc96e9cb40df, type: 3}
   m_Name: UpgradeUnit
   m_EditorClassIdentifier: 
+  hp: 5
+  damage: 2
+  shootInterval: 0.5

@@ -1,10 +1,11 @@
 namespace Scripts.Infrastructure
 {
+    using Bullets;
     using Camera;
     using Currencises;
     using Input;
     using LevelBased;
-    using PlayerArmy;
+    using Units;
     using UnityEngine;
     using Zenject;
 
@@ -32,7 +33,8 @@ namespace Scripts.Infrastructure
         private void BindFactories()
         {
             Container.BindInterfacesAndSelfTo<LevelsFactory>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerUnitsFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<UnitsFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BulletsFactory>().AsSingle();
         }
 
         private void BindCamera()

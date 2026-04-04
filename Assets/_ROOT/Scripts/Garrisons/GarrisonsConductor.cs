@@ -1,18 +1,16 @@
 namespace Scripts.Garrisons
 {
-    using System;
     using System.Collections.Generic;
     using Armies;
-    using PlayerArmy;
     using Units;
-    using Units.Settings;
+    using Units.PlayerArmy;
     using UnityEngine;
     using Zenject;
 
     public class GarrisonsConductor : MonoBehaviour
     {
         [Inject] 
-        private PlayerUnitsFactory PlayerUnitsFactory { get; set; }
+        private UnitsFactory UnitsFactory { get; set; }
         
         [SerializeField] private PlayerArmy playerArmy;
         
@@ -25,7 +23,7 @@ namespace Scripts.Garrisons
 
         private void Start()
         {
-            playerArmyPool = new PlayerArmyPool(unitPrefab, playerArmy.transform, unitsPoolCount, PlayerUnitsFactory);
+            playerArmyPool = new PlayerArmyPool(unitPrefab, playerArmy.transform, unitsPoolCount, UnitsFactory);
 
             playerArmy.OnStartProduction += StartProduction;
             playerArmy.OnStopProduction += StopProduction;

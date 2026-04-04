@@ -1,10 +1,10 @@
-namespace Scripts.PlayerArmy
+namespace Scripts.Units
 {
     using Units;
     using UnityEngine;
     using Zenject;
 
-    public class PlayerUnitsFactory : IFactory<Unit, Transform, Unit>
+    public class UnitsFactory : IFactory<Unit, Transform, Unit>
     {
         [Inject] 
         private IInstantiator Instantiator { get; set; }
