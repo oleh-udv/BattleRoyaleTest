@@ -6,6 +6,7 @@ namespace Scripts.Infrastructure
     using Input;
     using LevelBased;
     using Units;
+    using Units.Animations;
     using UnityEngine;
     using Zenject;
 
@@ -21,6 +22,8 @@ namespace Scripts.Infrastructure
             BindCamera();
 
             BindCurrencies();
+
+            BindConstants();
         }
 
         private void BindGameServices()
@@ -45,6 +48,11 @@ namespace Scripts.Infrastructure
         private void BindCurrencies()
         {
             Container.Bind<Wallet>().AsSingle();
+        }
+
+        private void BindConstants()
+        {
+            Container.Bind<UnitAnimationConstants>().AsSingle();
         }
     }
 }

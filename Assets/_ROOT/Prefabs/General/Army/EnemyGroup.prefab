@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visionCollider: {fileID: 4761465211640704475}
+  unitLevelingSettings: {fileID: 11400000, guid: 5fc3e46935432ba499056b38a418270e, type: 2}
+  unitsLevel: 0
   units: []
 --- !u!65 &4761465211640704475
 BoxCollider:

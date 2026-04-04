@@ -73,6 +73,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   smoothness: 0.1
+  reachedDestination: 0.1
+  movePointUpdateTime: 0.1
+  rotationSpeed: 15
+  lift: 0.001
   characterController: {fileID: 4192823839897614836}
 --- !u!1 &7879483904708458720
 GameObject:
@@ -85,7 +89,6 @@ GameObject:
   - component: {fileID: 3312456717185040885}
   - component: {fileID: 9130259856937570866}
   - component: {fileID: 972678618552857844}
-  - component: {fileID: 5909003538657475986}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -161,26 +164,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5909003538657475986
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7879483904708458720}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

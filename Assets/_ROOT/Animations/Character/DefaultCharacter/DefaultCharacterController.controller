@@ -17,9 +17,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.16298042
+  m_TransitionDuration: 0.035188697
   m_TransitionOffset: 0
-  m_ExitTime: 0.0000000020117707
+  m_ExitTime: 0.0000000025766422
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -177,9 +177,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.11632826
+  m_TransitionDuration: 0.116328254
   m_TransitionOffset: 0
-  m_ExitTime: 0.0057104793
+  m_ExitTime: 0.003589293
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -231,9 +231,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.17312057
+  m_TransitionDuration: 0.06975631
   m_TransitionOffset: 0
-  m_ExitTime: 0.000000010534345
+  m_ExitTime: 0.000000010821148
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -302,7 +302,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25000006
+  m_TransitionDuration: 0.25000003
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -343,7 +343,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Die
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2523670562543720565}
@@ -404,9 +404,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.19734201
+  m_TransitionDuration: 0.06256073
   m_TransitionOffset: 0
-  m_ExitTime: 0.0000000014922344
+  m_ExitTime: 0.0000000016384799
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

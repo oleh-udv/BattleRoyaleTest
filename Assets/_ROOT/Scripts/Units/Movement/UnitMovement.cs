@@ -23,7 +23,8 @@ namespace Scripts.Units.Movement
         
         private Vector3 smoothedVelocity;
         private Vector3 currentVelocity;
-
+        private Vector3 lastMovePoint;
+        
         private Coroutine moveToPoint;
 
         private void OnValidate() =>
@@ -42,9 +43,17 @@ namespace Scripts.Units.Movement
 
         public void SetMovePoint(Vector3 point)
         {
+            lastMovePoint = point;
+            
+            StopMoveToPoint();
             moveToPoint = StartCoroutine(MoveToPoint(point));
         }
-        
+
+        public void MoveToLastPoint()
+        {
+            SetMovePoint(lastMovePoint);
+        }
+
         public void StopMoveToPoint()
         {
             if(moveToPoint != null)

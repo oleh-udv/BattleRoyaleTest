@@ -81,7 +81,7 @@ PrefabInstance:
       addedObject: {fileID: 7224485503739684347}
     - targetCorrespondingSourceObject: {fileID: 7879483904708458720, guid: 89663f05c03be404983b5514ce97f198, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9179938798633186395}
+      addedObject: {fileID: 2531978719806712771}
   m_SourcePrefab: {fileID: 100100000, guid: 89663f05c03be404983b5514ce97f198, type: 3}
 --- !u!4 &1254001311196524310 stripped
 Transform:
@@ -123,7 +123,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7879483904708458720, guid: 89663f05c03be404983b5514ce97f198, type: 3}
   m_PrefabInstance: {fileID: 4368261127186280163}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9179938798633186395
+--- !u!114 &2531978719806712771
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,12 +132,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5892575853864015363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc54f84635254abd9fc8a10db4a8ff05, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c78f94d5ff04aeda77b70a23a332c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3132209657181551511}
   unitMovement: {fileID: 6855264585009703622}
-  runVelocity: 0.05
+  runVelocityLift: 0.05
 --- !u!114 &6855264585009703622 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7187151854642676773, guid: 89663f05c03be404983b5514ce97f198, type: 3}

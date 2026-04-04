@@ -18,10 +18,14 @@ namespace Scripts.Units
         [SerializeField] private UnitMovement unitMovement;
         [SerializeField] private Collider attackVisionCollider;
         [SerializeField] private CharacterController characterController;
+        
         [Header("Bullets")]
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private Transform bulletContainer;
         [SerializeField] private int startBulletsCount;
+        
+        [Header("Shoot")]
+        [SerializeField] private Transform shootPoint;
 
         private int hp;
         private int damage;
@@ -38,6 +42,7 @@ namespace Scripts.Units
         public event Action OnSetup;
         public event Action OnShoot;
         public event Action OnDied;
+        public event Action OnEndBattle;
 
         protected virtual void Start()
         {
@@ -49,13 +54,16 @@ namespace Scripts.Units
             IsAlive = true;
             attackOrder.Clear();
             characterController.enabled = true;
-
+            unitMovement.enabled = true;
+            
             Level = settings.Level;
             hp = settings.UnitSettings.HP;
             damage = settings.UnitSettings.Damage;
             shootInterval = settings.UnitSettings.ShootInterval;
             
+            StopAttack();
             gameObject.SetActive(true);
+            
             OnSetup?.Invoke();
         }
 
@@ -81,33 +89,43 @@ namespace Scripts.Units
         private void Attack()
         {
             unitMovement.StopMoveToPoint();
-            var unit = attackOrder.FirstOrDefault(u => u.IsAlive);
-            
-            if (unit == null)
-                StopAttack();
-            else
-                shootCoroutine = StartCoroutine(ShootRoutine(unit));
+            shootCoroutine = StartCoroutine(ShootRoutine());
         }
 
         private void StopAttack()
         {
             if(shootCoroutine != null)
                 StopCoroutine(shootCoroutine);
+            
+            OnEndBattle?.Invoke();
         }
 
-        private IEnumerator ShootRoutine(Unit unit)
+        private IEnumerator ShootRoutine()
         {
             var interval = new WaitForSeconds(shootInterval);
-            while (unit.IsAlive)
+            OnShoot?.Invoke();
+
+            while (attackOrder.Any(u => u.IsAlive))
             {
-                yield return interval;
-                Shoot();
+                var unit = attackOrder.FirstOrDefault(u => u.IsAlive);
+                
+                while (unit.IsAlive)
+                {
+                    yield return interval;
+                    Shoot(unit);
+                }
             }
+
+            StopAttack();
+            unitMovement.MoveToLastPoint();
         }
 
-        public void Shoot()
+        private void Shoot(Unit unit)
         {
-            OnShoot?.Invoke();
+            var bullet = bulletsPool.GetFreeElement();
+            bullet.transform.position = shootPoint.position;
+            bullet.Setup(unit, unit.transform.position, damage);
+            bullet.gameObject.SetActive(true);
         }
 
         public void GetDamage(int damage)
@@ -121,6 +139,8 @@ namespace Scripts.Units
         {
             characterController.enabled = false;
             IsAlive = false;
+            unitMovement.enabled = false;
+            StopAttack();
             
             OnDied?.Invoke();
         }

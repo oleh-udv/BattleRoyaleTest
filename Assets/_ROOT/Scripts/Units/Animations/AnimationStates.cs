@@ -4,7 +4,7 @@ namespace Scripts.Units.Animations
     {
         Idle = 0,
         Run = 1,
-        Shot = 2,
+        Shoot = 2,
         Death = 3,
     }
 }
