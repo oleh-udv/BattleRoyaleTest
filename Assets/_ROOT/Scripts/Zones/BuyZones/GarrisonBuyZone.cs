@@ -9,12 +9,15 @@ namespace Scripts.Zones.BuyZones
         [SerializeField] private Garrison garrison;
         [SerializeField] private List<int> prices;
         
-        private bool IsMaxLevel => garrison.Level >= prices.Count - 1;
+        private bool IsMaxLevel => garrison.Level >= prices.Count;
 
         protected override void LoadRemainingAmount()
         {
-            if(IsMaxLevel)
+            if (IsMaxLevel)
+            {
                 Deactivate();
+                return;
+            }
 
             startPrice = prices[garrison.Level];
             remainingAmount = prices[garrison.Level];
