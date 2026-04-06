@@ -3,6 +3,7 @@ namespace Scripts.Armies
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DG.Tweening;
     using Units;
     using Units.EnemyArmy;
     using Units.PlayerArmy;
@@ -27,8 +28,13 @@ namespace Scripts.Armies
         [SerializeField] private Transform unitsContainer;
         [SerializeField] private List<Transform> unitPoints;
 
-        private List<EnemyArmyUnit> units = new();
+        [Header("View")] 
+        [SerializeField] private Transform view;
+        [SerializeField] private float scaleTime = 0.5f;
 
+        private List<EnemyArmyUnit> units = new();
+        private Tween scaleTween;
+        
         public event Action OnGroupLose;
         public bool IsAlive => units.Any(u => u.IsAlive);
 
@@ -79,8 +85,13 @@ namespace Scripts.Armies
 
         private void CheckOnLose()
         {
-            if(!IsAlive)
+            if (!IsAlive)
+            {
+                scaleTween?.Kill();
+                scaleTween = view.DOScale(Vector3.zero, scaleTime);
+                
                 OnGroupLose?.Invoke();
+            }
         }
 
         private void DetectPlayerArmyUnit(PlayerArmyUnit playerArmyUnit)

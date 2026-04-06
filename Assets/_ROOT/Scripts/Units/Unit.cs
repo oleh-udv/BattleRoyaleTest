@@ -23,6 +23,7 @@ namespace Scripts.Units
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private Transform bulletContainer;
         [SerializeField] private int startBulletsCount;
+        [SerializeField] private ParticleSystem shootParticle;
         
         [Header("Shoot")]
         [SerializeField] private Transform shootPoint;
@@ -130,6 +131,7 @@ namespace Scripts.Units
             bullet.transform.position = shootPoint.position;
             bullet.transform.SetParent(transform.parent, true);
             bullet.Setup(unit, bulletContainer, unit.transform.position, damage);
+            shootParticle.Play();
         }
 
         public void GetDamage(int damage)

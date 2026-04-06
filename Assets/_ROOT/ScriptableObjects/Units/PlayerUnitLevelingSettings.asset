@@ -17,3 +17,5 @@ MonoBehaviour:
     unitSettings: {fileID: 11400000, guid: b070f4a3ef9235d4781b80f0e0e3d1dc, type: 2}
   - level: 1
     unitSettings: {fileID: 11400000, guid: 684d050f8e2bffa4ba16b8ff525a137e, type: 2}
+  - level: 2
+    unitSettings: {fileID: 11400000, guid: 47bc480a38ad2744ea871b1fde82723a, type: 2}

@@ -102,7 +102,7 @@ namespace Scripts.Zones.BuyZones
             }
         }
 
-        private void PlayFillAnimation()
+        protected void PlayFillAnimation()
         {
             fillTween?.Kill();
             var fillValue = (startPrice - remainingAmount) / (float)startPrice;

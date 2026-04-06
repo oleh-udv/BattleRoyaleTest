@@ -430,13 +430,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 5655152788185780259}
   priceForTick: 1
-  tickTime: 0.2
+  tickTime: 0.15
   startWait: 1
   fillImage: {fileID: 3294329231706808535}
   buyProgress: {fileID: 750698961536825418}
   fillTime: 0.1
   garrison: {fileID: 0}
-  prices: 060000000700000008000000
+  prices: 040000000500000006000000
 --- !u!1 &8775966540519509192
 GameObject:
   m_ObjectHideFlags: 0

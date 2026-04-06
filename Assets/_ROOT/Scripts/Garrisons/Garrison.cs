@@ -22,6 +22,7 @@ namespace Scripts.Garrisons
         
         private int currentLevel;
         private bool spawnTimerActive;
+        private bool isActive;
         private Coroutine spawnTimer;
 
         public int Level => currentLevel;
@@ -32,6 +33,7 @@ namespace Scripts.Garrisons
 
         private void Start()
         {
+            isActive = true;
             OnActivate?.Invoke();
         }
 
@@ -42,7 +44,7 @@ namespace Scripts.Garrisons
         
         public void StartSpawnTimer()
         {
-            if (spawnTimerActive)
+            if (spawnTimerActive || !isActive)
                 return;
             
             spawnTimerActive = true;

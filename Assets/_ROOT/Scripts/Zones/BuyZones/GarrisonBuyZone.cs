@@ -34,7 +34,8 @@ namespace Scripts.Zones.BuyZones
 
             if (!isActiveAndEnabled)
                 return;
-            
+
+            PlayFillAnimation();
             isBought = false;
             StartProgress();
         }

@@ -69,7 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 3334324938814866657}
   priceForTick: 1
-  tickTime: 0.2
+  tickTime: 0.15
   startWait: 1
   fillImage: {fileID: 303421627389912397}
   buyProgress: {fileID: 4523159391773845291}

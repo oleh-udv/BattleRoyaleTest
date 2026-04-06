@@ -20,7 +20,7 @@ namespace Scripts.Garrisons
         [SerializeField] private int unitsPoolCount;
         
         private PlayerArmyPool playerArmyPool;
-        private bool prodatcionIsActive = true;
+        private bool productionIsActive = true;
 
         private void Start()
         {
@@ -51,19 +51,19 @@ namespace Scripts.Garrisons
 
         private void ActivateGarrison()
         {
-            if (prodatcionIsActive)
+            if (productionIsActive)
                 StartProduction();
         }
 
         private void StartProduction()
         {
-            prodatcionIsActive = true;
+            productionIsActive = true;
             garrisons.ForEach(g => g.StartSpawnTimer());
         }
 
         private void StopProduction()
         {
-            prodatcionIsActive = false;
+            productionIsActive = false;
             garrisons.ForEach(g => g.StopSpawnTimer());
         }
 

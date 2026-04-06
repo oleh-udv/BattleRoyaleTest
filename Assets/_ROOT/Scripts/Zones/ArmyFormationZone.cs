@@ -2,6 +2,7 @@ namespace Scripts.Zones
 {
     using System;
     using System.Collections.Generic;
+    using DG.Tweening;
     using Units.Player;
     using UnityEngine;
 
@@ -11,8 +12,14 @@ namespace Scripts.Zones
         [SerializeField] private List<Transform> unitPoints;
         [SerializeField] private int startPointsCount;
         [SerializeField] private int upgradePointsCount;
+        
+        [Header("View")]
+        [SerializeField] private Transform view;
+        [SerializeField] private ParticleSystem upgradeParticle;
+        [SerializeField] private float scaleTime = 0.1f;
 
         private List<Transform> activePoints;
+        private Tween scaleTween;
         private int freePointIndex;
 
         public event Action OnUpgrade;
@@ -51,6 +58,11 @@ namespace Scripts.Zones
         private void Upgrade()
         {
             ActivatePoints(upgradePointsCount);
+            
+            scaleTween?.Kill();
+            scaleTween = view.DOScaleZ(2f, scaleTime);
+            upgradeParticle.Play();
+            
             OnUpgrade?.Invoke();
         }
 

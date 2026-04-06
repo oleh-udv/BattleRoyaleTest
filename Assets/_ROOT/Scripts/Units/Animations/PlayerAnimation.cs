@@ -2,6 +2,7 @@ namespace Scripts.Units.Animations
 {
     using System;
     using System.Collections.Generic;
+    using DG.Tweening;
     using Movement;
     using Player;
     using UnityEngine;
@@ -16,12 +17,16 @@ namespace Scripts.Units.Animations
         [SerializeField] private Transform view;
         [SerializeField] private Animator animator;
         [SerializeField] private UnitMovement unitMovement;
+        [SerializeField] private ParticleSystem levelUpParticle;
         
         [Header("Settings")] 
         [SerializeField] private float runVelocityLift = 0.05f;
+        [SerializeField] private float scaleTime = 0.2f;
         
         [Header("LevelUp")] 
         [SerializeField] private List<float> scaleByLevel;
+
+        private Tween scaleTween;
         
         private void Start()
         {
@@ -57,7 +62,11 @@ namespace Scripts.Units.Animations
         private void LevelUpAnimation()
         {
             var level = player.Level;
-            view.localScale = Vector3.one * scaleByLevel[level];
+            
+            scaleTween?.Kill();
+            scaleTween =  view.DOScale(Vector3.one * scaleByLevel[level], scaleTime);
+
+            levelUpParticle.Play();
         }
     }
 }
