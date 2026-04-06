@@ -35,7 +35,7 @@ namespace Scripts.Units.Movement
         public Vector3 Direction => direction;
 
         public void SetMovementDirection(Vector3 direction) =>
-            this.direction = direction;
+            this.direction = moveBlocked ? Vector3.zero : direction;
 
         private void FixedUpdate()
         {
@@ -72,9 +72,9 @@ namespace Scripts.Units.Movement
 
         public void SetBlockMove(bool isBlocked)
         {
-            moveBlocked = isBlocked;
             if(isBlocked)
                 SetMovementDirection(Vector3.zero);
+            moveBlocked = isBlocked;
         }
 
         public void LookAt(Vector3 point)
