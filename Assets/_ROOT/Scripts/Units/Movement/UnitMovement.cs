@@ -77,6 +77,14 @@ namespace Scripts.Units.Movement
                 SetMovementDirection(Vector3.zero);
         }
 
+        public void LookAt(Vector3 point)
+        {
+            var data = CalculatePointData(point);
+            var targetRotation = Quaternion.LookRotation(data.Direction);
+
+            transform.rotation = targetRotation;
+        }
+
         private IEnumerator MoveToPoint(Vector3 point)
         {
             var data = CalculatePointData(point);
@@ -92,12 +100,12 @@ namespace Scripts.Units.Movement
             SetMovementDirection(Vector3.zero);
         }
         
-        private MoveToPointData CalculatePointData(Vector3 point)
+        private DirectionPointData CalculatePointData(Vector3 point)
         {
             var difference = point - transform.position;
             var sqrMagnitude = difference.sqrMagnitude;
 
-            return new MoveToPointData()
+            return new DirectionPointData()
             {
                 Direction = difference.normalized,
                 ReachedDestination = sqrMagnitude <= reachedDestination
@@ -129,7 +137,7 @@ namespace Scripts.Units.Movement
                 Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
         
-        public struct MoveToPointData
+        private struct DirectionPointData
         {
             public Vector3 Direction;
             public bool ReachedDestination;

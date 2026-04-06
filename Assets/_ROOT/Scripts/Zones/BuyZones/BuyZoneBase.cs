@@ -2,8 +2,11 @@ namespace Scripts.Zones.BuyZones
 {
     using System.Collections;
     using Currencises;
+    using DG.Tweening;
+    using TMPro;
     using Units.Player;
     using UnityEngine;
+    using UnityEngine.UI;
     using Zenject;
 
     public abstract class BuyZoneBase : MonoBehaviour
@@ -19,7 +22,13 @@ namespace Scripts.Zones.BuyZones
         [Range(0.05f, 1f)]
         [SerializeField] private float tickTime = 0.1f;
         [SerializeField] private float startWait = 1f;
+        
+        [Header("Animation")]
+        [SerializeField] protected Image fillImage;
+        [SerializeField] protected TextMeshProUGUI buyProgress;
+        [SerializeField] private float fillTime = 0.2f;
 
+        private Tween fillTween;
         private Coroutine buyCoroutine;
         protected int startPrice;
         protected int remainingAmount;
@@ -46,6 +55,8 @@ namespace Scripts.Zones.BuyZones
         {
             startPrice = 0;
             remainingAmount = 0;
+
+            buyProgress.text = (startPrice - remainingAmount) + "/" + startPrice;
         }
         
         protected virtual void Buy()
@@ -56,6 +67,7 @@ namespace Scripts.Zones.BuyZones
         protected void Deactivate()
         {
             gameObject.SetActive(false);
+            fillTween?.Kill();
             StopProgress();
         }
 
@@ -82,10 +94,20 @@ namespace Scripts.Zones.BuyZones
                 takeValue = Wallet.IsCanTake(priceForTick) ? priceForTick : Wallet.Balance;
                 Wallet.Take(takeValue);
                 remainingAmount -= takeValue;
+
+                PlayFillAnimation();
                 
                 CheckBuy();
                 yield return tickWait;
             }
+        }
+
+        private void PlayFillAnimation()
+        {
+            fillTween?.Kill();
+            var fillValue = (startPrice - remainingAmount) / (float)startPrice;
+            fillTween = fillImage.DOFillAmount(fillValue, fillTime);
+            buyProgress.text =  (startPrice - remainingAmount) + "/" + startPrice;
         }
 
         private void CheckBuy()

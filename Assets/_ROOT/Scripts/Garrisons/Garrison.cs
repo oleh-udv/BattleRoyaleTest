@@ -2,6 +2,7 @@ namespace Scripts.Garrisons
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using Units.Settings;
     using UnityEngine;
 
@@ -12,6 +13,9 @@ namespace Scripts.Garrisons
         
         [Header("Timer")] 
         [SerializeField] private float spawnTimerTime;
+
+        [Header("LevelingView")]
+        [SerializeField] private List<GameObject> activatedWithLevel;
         
         public LevelingSettings UnitLevelingSettings 
             => unitsLevelingSettings.GetSettingsByLevel(currentLevel);
@@ -56,6 +60,8 @@ namespace Scripts.Garrisons
         public void LevelUp()
         {
             currentLevel++;
+            
+            activatedWithLevel.ForEach(o => o.SetActive(true));
         }
 
         private IEnumerator SpawnTimer()

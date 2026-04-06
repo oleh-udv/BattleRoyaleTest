@@ -15,6 +15,8 @@ namespace Scripts.Bullets
             CreatePool(count);
         }
         
+        public override bool ObjectIsFree(Bullet bullet) => !bullet.IsActive;
+        
         protected override Bullet CreateObject()
         {
             var createdObject = factory.Create(prefab, container);

@@ -246,6 +246,7 @@ MonoBehaviour:
   unit: {fileID: 6716137581943867011}
   runVelocityLift: 0.05
   waitDeathTime: 1
+  appearanceTime: 0
   scaleByLevel:
   - 1
   - 1.1

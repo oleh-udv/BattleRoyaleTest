@@ -111,6 +111,7 @@ namespace Scripts.Units
                 
                 while (unit.IsAlive)
                 {
+                    unitMovement.LookAt(unit.transform.position);
                     yield return interval;
                     Shoot(unit);
                 }
@@ -127,9 +128,8 @@ namespace Scripts.Units
             
             var bullet = bulletsPool.GetFreeElement();
             bullet.transform.position = shootPoint.position;
-            bullet.transform.SetParent(transform.parent);
+            bullet.transform.SetParent(transform.parent, true);
             bullet.Setup(unit, bulletContainer, unit.transform.position, damage);
-            bullet.gameObject.SetActive(true);
         }
 
         public void GetDamage(int damage)

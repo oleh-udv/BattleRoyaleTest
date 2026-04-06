@@ -20,19 +20,28 @@ namespace Scripts.Units.Animations
         [Header("Settings")] 
         [SerializeField] private float runVelocityLift = 0.05f;
         [SerializeField] private float waitDeathTime = 1f;
+        [SerializeField] private float appearanceTime = 0.5f;
 
         [Header("LevelUp")] 
         [SerializeField] private List<float> scaleByLevel;
-        
+
+        private Sequence appearanceSequence;
         private Sequence deathSequence;
         private bool isСalmly = true;
 
         private void Awake()
         {
+            unit.OnSetup += PlayAppearance;
             unit.OnDied += UnitDead;
             unit.OnShoot += Attack;
             unit.OnEndBattle += ReleaseUnit;
-            unit.OnSetup += UpdateView;
+            unit.OnSetup += PlayAppearance;
+        }
+
+        private void OnDisable()
+        {
+            appearanceSequence?.Kill();
+            deathSequence?.Kill();
         }
 
         private void OnDestroy()
@@ -40,9 +49,7 @@ namespace Scripts.Units.Animations
             unit.OnDied -= UnitDead;
             unit.OnShoot -= Attack;
             unit.OnEndBattle -= ReleaseUnit;
-            unit.OnSetup -= UpdateView;
-            
-            deathSequence.Kill();
+            unit.OnSetup -= PlayAppearance;
         }
 
         private void Update()
@@ -54,10 +61,15 @@ namespace Scripts.Units.Animations
             }
         }
 
-        private void UpdateView()
+        private void PlayAppearance()
         {
             var level = unit.Level;
-            view.localScale = Vector3.one * scaleByLevel[level];
+            
+            appearanceSequence?.Kill();
+            view.localScale = Vector3.zero;
+            appearanceSequence = DOTween.Sequence();
+
+            appearanceSequence.Append(view.DOScale(Vector3.one * scaleByLevel[level], appearanceTime));
         }
 
         public void SetState(AnimationStates state)

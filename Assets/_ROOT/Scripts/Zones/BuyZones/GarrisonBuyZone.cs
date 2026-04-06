@@ -21,6 +21,8 @@ namespace Scripts.Zones.BuyZones
 
             startPrice = prices[garrison.Level];
             remainingAmount = prices[garrison.Level];
+            
+            buyProgress.text = (startPrice - remainingAmount) + "/" + startPrice;
         }
 
         protected override void Buy()

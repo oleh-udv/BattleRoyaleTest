@@ -21,6 +21,8 @@ namespace Scripts.Zones.BuyZones
 
             startPrice = prices[player.Level];
             remainingAmount = prices[player.Level];
+            
+            buyProgress.text = (startPrice - remainingAmount) + "/" + startPrice;
         }
 
         protected override void Buy()

@@ -21,6 +21,8 @@ namespace Scripts.Zones.BuyZones
         {
             remainingAmount = price;
             startPrice = price;
+            
+            buyProgress.text = (startPrice - remainingAmount) + "/" + startPrice;
         }
 
         protected override void Buy()

@@ -10,6 +10,8 @@ namespace Scripts.Units.Player
     {
         [Inject]
         private Wallet Wallet { get; set; }
+        
+        [SerializeField] private ParticleSystem pickableParticle;
 
         private int currentLevel;
         
@@ -34,6 +36,8 @@ namespace Scripts.Units.Player
                     Wallet.Put(pickable.GetValue());
                     break;
             }
+
+            pickableParticle.Play();
         }
 
         public void LevelUp()
